@@ -274,78 +274,86 @@ p{opacity:.7;font-size:14px}
 </section>
 
 <script>
-let current=1;
-const progress=document.querySelector(".progress");
-let holdTimer;
+document.addEventListener("DOMContentLoaded", () => {
 
-function goTo(n){
-  document.querySelector(`[data-screen="${current}"]`).classList.remove("active");
-  document.querySelector(`[data-screen="${n}"]`).classList.add("active");
-  current=n;
-}
+  let current = 1;
 
-/* HOLD (TOUCH + MOUSE) */
-const hold=document.getElementById("hold");
+  function goTo(n) {
+    const currentScreen = document.querySelector(`[data-screen="${current}"]`);
+    const nextScreen = document.querySelector(`[data-screen="${n}"]`);
+    if (!currentScreen || !nextScreen) return;
 
-function startHold(){
-  progress.style.transition="stroke-dashoffset 2.5s linear";
-  progress.style.strokeDashoffset=0;
-  holdTimer=setTimeout(()=>goTo(2),2500);
-}
-
-function endHold(){
-  clearTimeout(holdTimer);
-  progress.style.transition="none";
-  progress.style.strokeDashoffset=440;
-}
-
-hold.addEventListener("touchstart",startHold);
-hold.addEventListener("touchend",endHold);
-hold.addEventListener("mousedown",startHold);
-hold.addEventListener("mouseup",endHold);
-hold.addEventListener("mouseleave",endHold);
-
-/* REMOVE CARDS */
-document.querySelectorAll(".card").forEach(card=>{
-  card.onclick=()=>{
-    card.remove();
-    if(!document.querySelector(".card")){
-      document.querySelector(".gift").classList.remove("hidden");
-    }
-  };
-});
-
-/* GIFT */
-document.querySelector(".gift").onclick=()=>goTo(3);
-
-/* CLAIM */
-document.querySelector(".claim-btn").onclick=()=>goTo(4);
-
-/* PHOTOS */
-const photos = [
-  "images/photo1.jpg",
-  "images/photo2.jpg",
-  "images/photo3.jpg",
-  "images/photo4.jpg"
-];
-
-let photoIndex = 0;
-const photo = document.getElementById("photo");
-
-photo.addEventListener("click", () => {
-  photoIndex++;
-  if (photoIndex < photos.length) {
-    photo.src = photos[photoIndex];
-  } else {
-    goTo(5);
+    currentScreen.classList.remove("active");
+    nextScreen.classList.add("active");
+    current = n;
   }
+
+  /* -------- HOLD HEART -------- */
+  const progress = document.querySelector(".progress");
+  const hold = document.getElementById("hold");
+  let holdTimer;
+
+  function startHold() {
+    if (!progress) return;
+    progress.style.transition = "stroke-dashoffset 2.5s linear";
+    progress.style.strokeDashoffset = 0;
+    holdTimer = setTimeout(() => goTo(2), 2500);
+  }
+
+  function endHold() {
+    clearTimeout(holdTimer);
+    if (!progress) return;
+    progress.style.transition = "none";
+    progress.style.strokeDashoffset = 440;
+  }
+
+  hold?.addEventListener("mousedown", startHold);
+  hold?.addEventListener("mouseup", endHold);
+  hold?.addEventListener("mouseleave", endHold);
+  hold?.addEventListener("touchstart", startHold);
+  hold?.addEventListener("touchend", endHold);
+
+  /* -------- REMOVE CARDS -------- */
+  document.querySelectorAll(".card").forEach(card => {
+    card.addEventListener("click", () => {
+      card.remove();
+      if (document.querySelectorAll(".card").length === 0) {
+        document.querySelector(".gift")?.classList.remove("hidden");
+      }
+    });
+  });
+
+  /* -------- GIFT -------- */
+  document.querySelector(".gift")?.addEventListener("click", () => {
+    goTo(3);
+  });
+
+  /* -------- CLAIM TICKET (FIXED) -------- */
+  document.querySelector(".claim-btn")?.addEventListener("click", () => {
+    goTo(4);
+  });
+
+  /* -------- PHOTOS (SAFE) -------- */
+  const photo = document.getElementById("photo");
+  let photoIndex = 1;
+
+  if (photo) {
+    photo.addEventListener("click", () => {
+      photoIndex++;
+      if (photoIndex <= 4) {
+        photo.textContent = "Photo " + photoIndex;
+      } else {
+        goTo(5);
+      }
+    });
+  }
+
+  /* -------- CARD OPEN -------- */
+  document.querySelector(".book")?.addEventListener("click", function () {
+    this.classList.toggle("open");
+  });
+
 });
-
-
-/* CARD OPEN */
-document.querySelector(".book").onclick=function(){
-  this.classList.toggle("open");
-};
 </script>
 
 </body>
