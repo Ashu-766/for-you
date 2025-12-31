@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>For You ❤️</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+<!-- Romantic Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:wght@400;500;600&family=Poppins:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
 *{box-sizing:border-box}
@@ -36,222 +37,161 @@ body{
 }
 
 h2{
-  font-family:'Playfair Display',serif;
+  font-family:'Cormorant Garamond',serif;
+  font-size:26px;
   margin-bottom:6px;
 }
 
 p{opacity:.7;font-size:14px}
 
-/* SCREEN 1 */
-.hold{
-  width:160px;height:160px;
-  border-radius:50%;
-  border:6px solid rgba(255,255,255,.2);
-  display:grid;
-  place-items:center;
-  font-size:42px;
-  margin-top:20px;
-}
-
-/* SCREEN 2 */
-.card{
-  background:#ffd6e7;
-  color:#333;
-  padding:14px 20px;
-  border-radius:14px;
-  margin:8px;
-  cursor:pointer;
-}
-
-.gift{
-  font-size:64px;
-  cursor:pointer;
-  margin-top:10px;
-}
-
-.hidden{display:none}
-
-/* SCREEN 3 */
-.ticket-wrapper{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:18px;
-}
-
-.ticket{
-  background:#0f1c2e;
-  border-radius:22px;
-  padding:28px 26px;
-  width:320px;
-  box-shadow:0 0 0 3px #d6b36a,0 20px 40px rgba(0,0,0,.6);
-}
-
-.ticket h3{
-  font-family:'Playfair Display',serif;
-  color:#f5c97a;
-  letter-spacing:2px;
-  margin-bottom:12px;
-}
-
-.ticket .line{
-  font-size:12px;
-  letter-spacing:1px;
-  opacity:.6;
-}
-
-.ticket .highlight{
-  margin-top:10px;
-  font-size:16px;
-}
-
-.ticket .note{
-  margin-top:6px;
-  font-size:12px;
-  opacity:.5;
-}
-
-/* CLAIM BUTTON OUTSIDE */
-.claim-outside{
-  background:none;
-  border:2px solid #d6b36a;
-  color:#d6b36a;
-  padding:10px 22px;
-  border-radius:30px;
-  cursor:pointer;
-  font-size:14px;
-}
-
-/* SCREEN 4 */
+/* ---------- Screen 4 (Photos) ---------- */
 .photo{
   width:240px;
-  height:300px;
+  height:320px;
   border-radius:14px;
   object-fit:cover;
   margin-top:20px;
+  cursor:pointer;
+  box-shadow:0 10px 30px rgba(0,0,0,.4);
 }
 
-/* SCREEN 5 */
-.book{
-  width:260px;
-  height:180px;
-  perspective:1000px;
-  margin-top:20px;
+/* ---------- Final Card ---------- */
+.card-wrapper{
+  width:300px;
+  height:420px;
+  position:relative;
+  perspective:1200px;
 }
 
-.book-inner{
+.card{
   width:100%;
   height:100%;
-  transition:1s;
+  position:relative;
   transform-style:preserve-3d;
 }
 
-.book.open .book-inner{
+.card.open .left,
+.card.open .right{
+  transform:rotateY(0deg);
+}
+
+.left, .right{
+  position:absolute;
+  top:0;
+  width:50%;
+  height:100%;
+  background:#ffefd5;
+  backface-visibility:hidden;
+  transition:1s ease;
+}
+
+.left{
+  left:0;
+  border-radius:12px 0 0 12px;
+  transform-origin:left;
   transform:rotateY(180deg);
 }
 
-.page{
+.right{
+  right:0;
+  border-radius:0 12px 12px 0;
+  transform-origin:right;
+  transform:rotateY(-180deg);
+}
+
+.card-title{
   position:absolute;
   inset:0;
-  border-radius:12px;
-  backface-visibility:hidden;
   display:flex;
   align-items:center;
   justify-content:center;
-  padding:20px;
+  font-family:'Great Vibes',cursive;
+  font-size:30px;
+  color:#5a2a2a;
 }
 
-.front{background:#ffcc80;color:#333}
-.back{
-  background:white;
-  color:#333;
-  transform:rotateY(180deg);
+.letter{
+  position:absolute;
+  inset:12px;
+  background:#fffaf0;
+  border-radius:8px;
+  padding:16px;
+  overflow-y:auto;
+  font-family:'Cormorant Garamond',serif;
+  color:#4b2b2b;
+  line-height:1.6;
+  display:none;
+}
+
+.card.open .letter{
+  display:block;
+}
+
+.letter h3{
+  font-family:'Great Vibes',cursive;
+  font-size:28px;
+  text-align:center;
+  margin-bottom:10px;
 }
 </style>
 </head>
 
 <body>
 
-<!-- SCREEN 1 -->
-<section class="screen active" data="1">
-  <h2>Hold this ❤️</h2>
-  <div class="hold" id="hold">❤️</div>
-</section>
-
-<!-- SCREEN 2 -->
-<section class="screen" data="2">
-  <h2>Something is waiting</h2>
-  <div class="card">Work</div>
-  <div class="card">Stress</div>
-  <div class="card">Bad Days</div>
-  <div class="card">Illness</div>
-  <div class="gift hidden" id="gift">🎁</div>
-</section>
-
-<!-- SCREEN 3 -->
-<section class="screen" data="3">
-  <div class="ticket-wrapper">
-    <div class="ticket">
-      <h3>GOLDEN TICKET</h3>
-      <div class="line">VALID FOR EVERY DAY AHEAD</div>
-      <div class="highlight">Unlimited Love</div>
-      <div class="note">No expiration date</div>
-    </div>
-
-    <!-- OUTSIDE BUTTON -->
-    <button class="claim-outside" id="claim">
-      CLAIM TICKET →
-    </button>
-  </div>
-</section>
-
-<!-- SCREEN 4 -->
-<section class="screen" data="4">
-  <h2>Some moments ❤️</h2>
+<!-- SCREEN 4 (Moments) -->
+<section class="screen active" data="4">
+  <h2>Some moments from this year</h2>
+  <p>Tap the photo to continue</p>
   <img class="photo" id="photo" src="images/photo1.png">
 </section>
 
-<!-- SCREEN 5 -->
+<!-- SCREEN 5 (Final Card) -->
 <section class="screen" data="5">
-  <h2>For my Cutiepie :)</h2>
-  <div class="book" id="book">
-    <div class="book-inner">
-      <div class="page front">Happy New Year 2026 🎉</div>
-      <div class="page back">
-        Thank you for being my calm, my smile,
-        and my favorite part of every day ❤️
+  <h2>For my Cutiepie 💗</h2>
+  <p>Tap the card to open</p>
+
+  <div class="card-wrapper">
+    <div class="card" id="card">
+      <div class="left"></div>
+      <div class="right"></div>
+
+      <div class="card-title">Happy New Year 2026</div>
+
+      <div class="letter">
+        <h3>My Bub ❤️</h3>
+
+        <p>
+Happy New Year My Bub ❤️✨<br><br>
+
+New year aa gaya… par sabse zyada khushi iss baat ki hai ki iss saal ke start mai app meri life mein ho 🥹🫶🏻<br><br>
+
+2026 kya karega mujhe nahi pata…<br>
+Par itna pakka hai ki jab tak app saath ho, sab assan lagta hai ❤️<br><br>
+
+2025 ne hume bohot kuch sikhaya — thoda patience, thodi maturity, thodi ladai, thoda pyaar… aur bohot saari stupid si bakchodi 😭😂<br><br>
+
+Kabhi hum hass pade bina wajah, kabhi bina baat ke ladai ho gayi, kabhi ek dusre ko samjhaya, kabhi bas chup rehkar feel kiya…<br><br>
+
+Par har moment ke end pe bas app aur mai hi rahe 🫂✨<br><br>
+
+Mai janta hoon kabhi kabhi mai gussa karta hoon, stupid behave karta hoon, irritate bhi karta hoon… par apke bina mai wahi purana boring insan hota.<br><br>
+
+Apne meri life ko zyada real, zyada emotional aur zyada “app jaisi” bana diya 🥹💗<br><br>
+
+Is saal meri bas ek hi wish hai — hum saath rahein, aur har din ek dusre ko choose karte rahein 🤞🏻❤️<br><br>
+
+Happyyyy New Year My Bubbbbb 🥹❤️✨<br>
+Looooovvvveeeeeee youuuuuuuuu soooo freaking muchhhhh 😭💞<br><br>
+
+Naya saal, par mera dil ab bhi appe hi fix hai ❤️‍🔥
+        </p>
       </div>
     </div>
   </div>
 </section>
 
 <script>
-const screens=document.querySelectorAll(".screen");
-const show=n=>{
-  screens.forEach(s=>s.classList.remove("active"));
-  document.querySelector(`[data="${n}"]`).classList.add("active");
-};
-
-/* 1 */
-document.getElementById("hold").addEventListener("pointerdown",()=>{
-  setTimeout(()=>show(2),1200);
-});
-
-/* 2 */
-document.querySelectorAll(".card").forEach(c=>{
-  c.addEventListener("pointerdown",()=>{
-    c.remove();
-    if(!document.querySelector(".card")){
-      document.getElementById("gift").classList.remove("hidden");
-    }
-  });
-});
-document.getElementById("gift").addEventListener("pointerdown",()=>show(3));
-
-/* 3 */
-document.getElementById("claim").addEventListener("pointerdown",()=>show(4));
-
-/* 4 */
+/* Photo logic */
 const photos=[
  "images/photo1.png",
  "images/photo2.png",
@@ -266,13 +206,14 @@ photo.addEventListener("pointerdown",()=>{
   if(i<photos.length){
     photo.src=photos[i];
   }else{
-    show(5);
+    document.querySelector('[data="4"]').classList.remove("active");
+    document.querySelector('[data="5"]').classList.add("active");
   }
 });
 
-/* 5 */
-document.getElementById("book").addEventListener("pointerdown",()=>{
-  document.getElementById("book").classList.toggle("open");
+/* Card open */
+document.getElementById("card").addEventListener("pointerdown",()=>{
+  document.getElementById("card").classList.add("open");
 });
 </script>
 
