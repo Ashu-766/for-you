@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>For You ❤️</title>
 
-<!-- Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Poppins:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
@@ -44,7 +43,7 @@ h2{
 
 p{opacity:.7;font-size:14px}
 
-/* -------- SCREEN 4 (PHOTOS) -------- */
+/* IMAGE */
 .memory-photo{
   width:260px;
   height:340px;
@@ -52,12 +51,13 @@ p{opacity:.7;font-size:14px}
   border-radius:16px;
   object-fit:cover;
   display:block;
-  background:#111;
+  background:#222;
   box-shadow:0 20px 40px rgba(0,0,0,.5);
   cursor:pointer;
+  border:2px solid rgba(255,255,255,.1);
 }
 
-/* -------- FINAL CARD -------- */
+/* CARD */
 .card-wrapper{
   width:300px;
   height:420px;
@@ -113,8 +113,11 @@ p{opacity:.7;font-size:14px}
   <img
     id="memoryPhoto"
     class="memory-photo"
-    src="images/photo1.png"
+    src="./images/photo1.png"
     alt="memory"
+    loading="eager"
+    decoding="async"
+    onerror="this.style.display='none'; alert('Image not found. Check images folder name & file case.');"
   />
 </section>
 
@@ -135,20 +138,14 @@ p{opacity:.7;font-size:14px}
 
 New year aa gaya… par sabse zyada khushi iss baat ki hai ki iss saal ke start mai app meri life mein ho 🥹🫶🏻<br><br>
 
-2026 kya karega mujhe nahi pata…<br>
-Par itna pakka hai ki jab tak app saath ho, sab assan lagta hai ❤️<br><br>
+2026 kya karega mujhe nahi pata…  
+par itna pakka hai ki jab tak app saath ho, sab assan lagta hai ❤️<br><br>
 
 2025 ne hume bohot kuch sikhaya — thoda patience, thodi maturity, thodi ladai, thoda pyaar… aur bohot saari stupid si bakchodi 😭😂<br><br>
 
-Kabhi hum hass pade bina wajah, kabhi bina baat ke ladai ho gayi, kabhi ek dusre ko samjhaya, kabhi bas chup rehkar feel kiya…<br><br>
-
 Par har moment ke end pe bas app aur mai hi rahe 🫂✨<br><br>
 
-Mai janta hoon kabhi kabhi mai gussa karta hoon, stupid behave karta hoon…  
-par apke bina mai wahi purana boring insan hota.<br><br>
-
-Is saal meri bas ek hi wish hai — hum saath rahein  
-aur har din ek dusre ko choose karte rahein 🤞🏻❤️<br><br>
+Is saal meri bas ek hi wish hai — hum saath rahein aur har din ek dusre ko choose karte rahein 🤞🏻❤️<br><br>
 
 <strong>Happyyyy New Year My Bubbbbb 🥹❤️✨</strong><br>
 Looooovvvveeeeeee youuuuuuuuu soooo freaking muchhhhh 😭💞<br><br>
@@ -161,12 +158,11 @@ Naya saal, par mera dil ab bhi appe hi fix hai ❤️‍🔥
 </section>
 
 <script>
-/* Photo Flow */
 const photos = [
-  "images/photo1.png",
-  "images/photo2.png",
-  "images/photo3.png",
-  "images/photo4.png"
+  "./images/photo1.png",
+  "./images/photo2.png",
+  "./images/photo3.png",
+  "./images/photo4.png"
 ];
 
 let index = 0;
@@ -175,14 +171,13 @@ const photo = document.getElementById("memoryPhoto");
 photo.addEventListener("pointerdown", () => {
   index++;
   if (index < photos.length) {
-    photo.src = photos[index];
+    photo.src = photos[index] + "?v=" + Date.now();
   } else {
     document.querySelector('[data-screen="4"]').classList.remove("active");
     document.querySelector('[data-screen="5"]').classList.add("active");
   }
 });
 
-/* Card Open */
 document.getElementById("nyCard").addEventListener("pointerdown", () => {
   document.getElementById("nyCard").classList.add("open");
 });
