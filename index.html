@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>For You ❤️</title>
 
+<!-- Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Poppins:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
@@ -17,6 +18,7 @@ body{
   overflow:hidden;
 }
 
+/* ---------- SCREEN BASE ---------- */
 .screen{
   position:absolute;
   inset:0;
@@ -27,9 +29,8 @@ body{
   text-align:center;
   opacity:0;
   pointer-events:none;
-  transition:opacity .5s ease;
+  transition:opacity .6s ease;
 }
-
 .screen.active{
   opacity:1;
   pointer-events:auto;
@@ -40,27 +41,78 @@ h2{
   font-size:26px;
   margin-bottom:6px;
 }
-
 p{opacity:.7;font-size:14px}
 
-/* IMAGE */
-.memory-photo{
-  width:260px;
-  height:340px;
-  margin-top:20px;
-  border-radius:16px;
-  object-fit:cover;
-  display:block;
-  background:#222;
-  box-shadow:0 20px 40px rgba(0,0,0,.5);
-  cursor:pointer;
-  border:2px solid rgba(255,255,255,.1);
+/* ---------- SCREEN 1 (HOLD) ---------- */
+.hold-container{
+  width:160px;height:160px;position:relative;margin-top:20px;
+}
+.progress-ring circle{fill:none;stroke-width:8}
+.progress-bg{stroke:rgba(255,255,255,.15)}
+.progress{
+  stroke:#ff80bf;
+  stroke-dasharray:440;
+  stroke-dashoffset:440;
+  transition:stroke-dashoffset 2.5s linear;
+}
+.heart{
+  position:absolute;inset:0;
+  display:grid;place-items:center;
+  font-size:42px;
 }
 
-/* CARD */
+/* ---------- SCREEN 2 (DISTRACTIONS) ---------- */
+.cards{
+  margin-top:20px;
+  display:flex;
+  gap:14px;
+  flex-wrap:wrap;
+  justify-content:center;
+}
+.card{
+  background:#ffd6e7;color:#333;
+  padding:14px 20px;border-radius:14px;
+  cursor:pointer;
+}
+.card:active{transform:scale(.95)}
+.gift{
+  font-size:64px;margin-top:20px;
+  cursor:pointer;
+}
+.hidden{display:none}
+
+/* ---------- SCREEN 3 (GOLDEN TICKET) ---------- */
+.golden-ticket{
+  width:320px;
+  background:#0f1c2e;
+  border-radius:22px;
+  padding:28px 22px;
+  box-shadow:0 0 0 3px #d6b36a,0 25px 50px rgba(0,0,0,.6);
+}
+.ticket-title{color:#f5c97a;letter-spacing:2px}
+.ticket-subtitle{font-size:12px;opacity:.6}
+.ticket-quote{margin:12px 0;font-style:italic}
+.claim-btn{
+  margin-top:18px;
+  background:none;border:none;
+  color:#d6b36a;
+  font-size:14px;
+  cursor:pointer;
+}
+
+/* ---------- SCREEN 4 (PHOTOS) ---------- */
+.memory-photo{
+  width:260px;height:340px;
+  border-radius:16px;
+  object-fit:cover;
+  margin-top:20px;
+  cursor:pointer;
+  box-shadow:0 20px 40px rgba(0,0,0,.5);
+}
+
+/* ---------- SCREEN 5 (CARD) ---------- */
 .card-wrapper{
-  width:300px;
-  height:420px;
+  width:300px;height:420px;
   margin-top:20px;
   position:relative;
   border-radius:16px;
@@ -69,30 +121,19 @@ p{opacity:.7;font-size:14px}
   color:#3a2a2a;
   cursor:pointer;
 }
-
 .card-cover{
-  position:absolute;
-  inset:0;
+  position:absolute;inset:0;
   background:linear-gradient(135deg,#f6d365,#fda085);
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  display:flex;align-items:center;justify-content:center;
   font-family:'Playfair Display',serif;
-  font-size:28px;
+  font-size:26px;
   transition:transform .9s ease;
   z-index:2;
 }
-
 .card-wrapper.open .card-cover{
   transform:translateX(-100%);
 }
-
-.card-inside{
-  position:absolute;
-  inset:0;
-  padding:18px;
-}
-
+.card-inside{position:absolute;inset:0;padding:18px}
 .letter{
   height:100%;
   overflow-y:auto;
@@ -105,82 +146,106 @@ p{opacity:.7;font-size:14px}
 
 <body>
 
+<!-- SCREEN 1 -->
+<section class="screen active" data-screen="1">
+  <h2>A little surprise for you</h2>
+  <p>Tap and hold</p>
+  <div class="hold-container" id="hold">
+    <svg width="160" height="160" class="progress-ring">
+      <circle cx="80" cy="80" r="70" class="progress-bg"/>
+      <circle cx="80" cy="80" r="70" class="progress"/>
+    </svg>
+    <div class="heart">❤️</div>
+  </div>
+</section>
+
+<!-- SCREEN 2 -->
+<section class="screen" data-screen="2">
+  <h2>Something is waiting for you</h2>
+  <p>Move the little distractions aside</p>
+  <div class="cards">
+    <div class="card">Work</div>
+    <div class="card">Stress</div>
+    <div class="card">Bad Days</div>
+    <div class="card">Illness</div>
+  </div>
+  <div class="gift hidden">🎁</div>
+</section>
+
+<!-- SCREEN 3 -->
+<section class="screen" data-screen="3">
+  <div class="golden-ticket">
+    <h3 class="ticket-title">GOLDEN TICKET</h3>
+    <p class="ticket-subtitle">VALID FOR EVERY DAY AHEAD</p>
+    <p class="ticket-quote">“Unlimited Love & Smiles”</p>
+    <p class="ticket-subtitle">No expiration date</p>
+    <button class="claim-btn">CLAIM TICKET →</button>
+  </div>
+</section>
+
 <!-- SCREEN 4 -->
-<section class="screen active" data-screen="4">
+<section class="screen" data-screen="4">
   <h2>Some moments from this year</h2>
   <p>Tap the photo to continue</p>
-
-  <img
-    id="memoryPhoto"
-    class="memory-photo"
-    src="./images/photo1.png"
-    alt="memory"
-    loading="eager"
-    decoding="async"
-    onerror="this.style.display='none'; alert('Image not found. Check images folder name & file case.');"
-  />
+  <img id="memoryPhoto" class="memory-photo" src="images/photo1.png">
 </section>
 
 <!-- SCREEN 5 -->
 <section class="screen" data-screen="5">
   <h2>For my Cutiepie ❤️</h2>
   <p>Tap the card to open</p>
-
   <div class="card-wrapper" id="nyCard">
-    <div class="card-cover">
-      Happy New Year 2026 ✨
-    </div>
-
+    <div class="card-cover">Happy New Year 2026 ✨</div>
     <div class="card-inside">
       <div class="letter">
-        <p>
-<strong>Happy New Year My Bub ❤️✨</strong><br><br>
-
-New year aa gaya… par sabse zyada khushi iss baat ki hai ki iss saal ke start mai app meri life mein ho 🥹🫶🏻<br><br>
-
-2026 kya karega mujhe nahi pata…  
-par itna pakka hai ki jab tak app saath ho, sab assan lagta hai ❤️<br><br>
-
-2025 ne hume bohot kuch sikhaya — thoda patience, thodi maturity, thodi ladai, thoda pyaar… aur bohot saari stupid si bakchodi 😭😂<br><br>
-
-Par har moment ke end pe bas app aur mai hi rahe 🫂✨<br><br>
-
-Is saal meri bas ek hi wish hai — hum saath rahein aur har din ek dusre ko choose karte rahein 🤞🏻❤️<br><br>
-
-<strong>Happyyyy New Year My Bubbbbb 🥹❤️✨</strong><br>
-Looooovvvveeeeeee youuuuuuuuu soooo freaking muchhhhh 😭💞<br><br>
-
-Naya saal, par mera dil ab bhi appe hi fix hai ❤️‍🔥
-        </p>
+        <strong>Happy New Year My Bub ❤️✨</strong><br><br>
+        Naya saal… par mera dil ab bhi sirf tum pe hi fix hai ❤️‍🔥<br><br>
+        Har din, har mood, har fight ke baad bhi —
+        bas tum aur mai 🫂✨
       </div>
     </div>
   </div>
 </section>
 
 <script>
-const photos = [
-  "./images/photo1.png",
-  "./images/photo2.png",
-  "./images/photo3.png",
-  "./images/photo4.png"
-];
+let current=1;
+const goTo=n=>{
+  document.querySelector(`[data-screen="${current}"]`).classList.remove("active");
+  document.querySelector(`[data-screen="${n}"]`).classList.add("active");
+  current=n;
+};
 
-let index = 0;
-const photo = document.getElementById("memoryPhoto");
+/* HOLD */
+const progress=document.querySelector(".progress");
+let timer;
+hold.onpointerdown=()=>{
+  progress.style.strokeDashoffset=0;
+  timer=setTimeout(()=>goTo(2),2500);
+};
+hold.onpointerup=()=>{clearTimeout(timer);progress.style.strokeDashoffset=440};
 
-photo.addEventListener("pointerdown", () => {
-  index++;
-  if (index < photos.length) {
-    photo.src = photos[index] + "?v=" + Date.now();
-  } else {
-    document.querySelector('[data-screen="4"]').classList.remove("active");
-    document.querySelector('[data-screen="5"]').classList.add("active");
-  }
+/* CARDS */
+document.querySelectorAll(".card").forEach(c=>{
+  c.onclick=()=>{c.remove();
+    if(!document.querySelector(".card"))document.querySelector(".gift").classList.remove("hidden");
+  };
 });
+document.querySelector(".gift").onclick=()=>goTo(3);
 
-document.getElementById("nyCard").addEventListener("pointerdown", () => {
-  document.getElementById("nyCard").classList.add("open");
-});
+/* CLAIM */
+document.querySelector(".claim-btn").onclick=()=>goTo(4);
+
+/* PHOTOS */
+const photos=["images/photo1.png","images/photo2.png","images/photo3.png","images/photo4.png"];
+let i=0;
+memoryPhoto.onclick=()=>{
+  i++;
+  if(i<photos.length)memoryPhoto.src=photos[i];
+  else goTo(5);
+};
+
+/* CARD */
+nyCard.onclick=()=>nyCard.classList.add("open");
 </script>
 
 </body>
