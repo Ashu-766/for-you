@@ -291,14 +291,20 @@ document.addEventListener("DOMContentLoaded", () => {
   let i=0;
   const photo=document.getElementById("photo");
 
-  photo.onclick=()=>{
-    i++;
-    if(i<photos.length){
-      photo.src=photos[i];
-    }else{
-      goTo(5);
-    }
-  };
+  const nextPhoto = () => {
+  i++;
+  if (i < photos.length) {
+    photo.src = photos[i];
+  } else {
+    goTo(5);
+  }
+};
+
+photo.addEventListener("click", nextPhoto);
+photo.addEventListener("touchstart", (e) => {
+  e.preventDefault();
+  nextPhoto();
+});
 
   /* CARD */
   document.querySelector(".book").onclick=function(){
