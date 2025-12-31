@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>For You ❤️</title>
 
-<!-- New Year / Romantic Font -->
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
@@ -28,7 +27,7 @@ body{
   text-align:center;
   opacity:0;
   pointer-events:none;
-  transition:opacity .6s ease;
+  transition:opacity .5s ease;
 }
 
 .screen.active{
@@ -38,140 +37,135 @@ body{
 
 h2{
   font-family:'Playfair Display',serif;
-  font-weight:500;
   margin-bottom:6px;
 }
 
 p{opacity:.7;font-size:14px}
 
 /* SCREEN 1 */
-.hold-container{
-  width:160px;
-  height:160px;
-  position:relative;
-  margin-top:20px;
-}
-
-.progress-ring circle{fill:none;stroke-width:8}
-.progress-bg{stroke:rgba(255,255,255,.15)}
-.progress{
-  stroke:#ff80bf;
-  stroke-dasharray:440;
-  stroke-dashoffset:440;
-}
-
-.heart{
-  position:absolute;
-  inset:0;
+.hold{
+  width:160px;height:160px;
+  border-radius:50%;
+  border:6px solid rgba(255,255,255,.2);
   display:grid;
   place-items:center;
   font-size:42px;
+  margin-top:20px;
 }
 
 /* SCREEN 2 */
-.cards{
-  margin-top:20px;
-  display:flex;
-  gap:14px;
-  flex-wrap:wrap;
-  justify-content:center;
-}
-
 .card{
   background:#ffd6e7;
   color:#333;
   padding:14px 20px;
   border-radius:14px;
+  margin:8px;
   cursor:pointer;
 }
 
 .gift{
   font-size:64px;
-  margin-top:20px;
   cursor:pointer;
+  margin-top:10px;
 }
 
 .hidden{display:none}
 
 /* SCREEN 3 */
-.golden-ticket{
-  width:320px;
+.ticket-wrapper{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:18px;
+}
+
+.ticket{
   background:#0f1c2e;
   border-radius:22px;
-  padding:28px 22px 32px;
-  box-shadow:0 0 0 3px #d6b36a,0 25px 50px rgba(0,0,0,.6);
-  position:relative;
+  padding:28px 26px;
+  width:320px;
+  box-shadow:0 0 0 3px #d6b36a,0 20px 40px rgba(0,0,0,.6);
 }
 
-.golden-ticket::before{
-  content:"";
-  position:absolute;
-  inset:10px;
-  border-radius:16px;
-  border:1px dashed rgba(255,215,120,.35);
-}
-
-.ticket-title{
+.ticket h3{
   font-family:'Playfair Display',serif;
   color:#f5c97a;
   letter-spacing:2px;
+  margin-bottom:12px;
 }
 
-.claim-btn{
-  margin-top:20px;
+.ticket .line{
+  font-size:12px;
+  letter-spacing:1px;
+  opacity:.6;
+}
+
+.ticket .highlight{
+  margin-top:10px;
+  font-size:16px;
+}
+
+.ticket .note{
+  margin-top:6px;
+  font-size:12px;
+  opacity:.5;
+}
+
+/* CLAIM BUTTON OUTSIDE */
+.claim-outside{
   background:none;
-  border:none;
+  border:2px solid #d6b36a;
   color:#d6b36a;
-  font-size:14px;
+  padding:10px 22px;
+  border-radius:30px;
   cursor:pointer;
+  font-size:14px;
 }
 
 /* SCREEN 4 */
 .photo{
   width:240px;
   height:300px;
-  object-fit:cover;
   border-radius:14px;
+  object-fit:cover;
   margin-top:20px;
-  cursor:pointer;
 }
 
 /* SCREEN 5 */
-.card-book{
+.book{
   width:260px;
   height:180px;
   perspective:1000px;
   margin-top:20px;
 }
 
-.book{
+.book-inner{
   width:100%;
   height:100%;
-  position:relative;
-  transform-style:preserve-3d;
   transition:1s;
-  cursor:pointer;
+  transform-style:preserve-3d;
 }
 
-.book.open{transform:rotateY(180deg)}
+.book.open .book-inner{
+  transform:rotateY(180deg);
+}
 
 .page{
   position:absolute;
   inset:0;
   border-radius:12px;
   backface-visibility:hidden;
-  padding:20px;
   display:flex;
   align-items:center;
   justify-content:center;
+  padding:20px;
 }
 
 .front{background:#ffcc80;color:#333}
-.inside{
+.back{
   background:white;
   color:#333;
   transform:rotateY(180deg);
-  font-size:14px;
 }
 </style>
 </head>
@@ -179,138 +173,106 @@ p{opacity:.7;font-size:14px}
 <body>
 
 <!-- SCREEN 1 -->
-<section class="screen active" data-screen="1">
-  <h2>A little surprise for you</h2>
-  <p>Tap and hold</p>
-
-  <div class="hold-container" id="hold">
-    <svg width="160" height="160" class="progress-ring">
-      <circle cx="80" cy="80" r="70" class="progress-bg"/>
-      <circle cx="80" cy="80" r="70" class="progress"/>
-    </svg>
-    <div class="heart">❤️</div>
-  </div>
+<section class="screen active" data="1">
+  <h2>Hold this ❤️</h2>
+  <div class="hold" id="hold">❤️</div>
 </section>
 
 <!-- SCREEN 2 -->
-<section class="screen" data-screen="2">
-  <h2>Something is waiting for you</h2>
-  <p>Move the little distractions aside</p>
-
-  <div class="cards">
-    <div class="card">Work</div>
-    <div class="card">Stress</div>
-    <div class="card">Bad Days</div>
-    <div class="card">Illness</div>
-  </div>
-
-  <div class="gift hidden">🎁</div>
+<section class="screen" data="2">
+  <h2>Something is waiting</h2>
+  <div class="card">Work</div>
+  <div class="card">Stress</div>
+  <div class="card">Bad Days</div>
+  <div class="card">Illness</div>
+  <div class="gift hidden" id="gift">🎁</div>
 </section>
 
 <!-- SCREEN 3 -->
-<section class="screen" data-screen="3">
-  <div class="golden-ticket">
-    <h3 class="ticket-title">GOLDEN TICKET</h3>
-    <p>Unlimited Love & Smiles</p>
-    <button class="claim-btn">CLAIM TICKET →</button>
+<section class="screen" data="3">
+  <div class="ticket-wrapper">
+    <div class="ticket">
+      <h3>GOLDEN TICKET</h3>
+      <div class="line">VALID FOR EVERY DAY AHEAD</div>
+      <div class="highlight">Unlimited Love</div>
+      <div class="note">No expiration date</div>
+    </div>
+
+    <!-- OUTSIDE BUTTON -->
+    <button class="claim-outside" id="claim">
+      CLAIM TICKET →
+    </button>
   </div>
 </section>
 
 <!-- SCREEN 4 -->
-<section class="screen" data-screen="4">
-  <h2>Some moments from this year</h2>
-  <p>Tap the photo to continue</p>
-
-  <img class="photo" id="photo" src="images/photo1.png" />
+<section class="screen" data="4">
+  <h2>Some moments ❤️</h2>
+  <img class="photo" id="photo" src="images/photo1.png">
 </section>
 
 <!-- SCREEN 5 -->
-<section class="screen" data-screen="5">
+<section class="screen" data="5">
   <h2>For my Cutiepie :)</h2>
-  <p>Tap the card to read</p>
-
-  <div class="card-book">
-    <div class="book">
+  <div class="book" id="book">
+    <div class="book-inner">
       <div class="page front">Happy New Year 2026 🎉</div>
-      <div class="page inside">
-        I hope this year brings you calm mornings,
-        peaceful nights and endless smiles 💖
+      <div class="page back">
+        Thank you for being my calm, my smile,
+        and my favorite part of every day ❤️
       </div>
     </div>
   </div>
 </section>
 
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-
-  function goTo(n){
-    document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
-    document.querySelector(`[data-screen="${n}"]`).classList.add("active");
-  }
-
-  /* HOLD */
-  const progress=document.querySelector(".progress");
-  const hold=document.getElementById("hold");
-  let t;
-
-  const start=()=>{
-    progress.style.transition="stroke-dashoffset 2.5s linear";
-    progress.style.strokeDashoffset=0;
-    t=setTimeout(()=>goTo(2),2500);
-  };
-  const end=()=>{
-    clearTimeout(t);
-    progress.style.strokeDashoffset=440;
-  };
-
-  hold.addEventListener("mousedown",start);
-  hold.addEventListener("mouseup",end);
-  hold.addEventListener("touchstart",start);
-  hold.addEventListener("touchend",end);
-
-  /* CARDS */
-  document.querySelectorAll(".card").forEach(c=>{
-    c.onclick=()=>{
-      c.remove();
-      if(!document.querySelector(".card")){
-        document.querySelector(".gift").classList.remove("hidden");
-      }
-    };
-  });
-
-  document.querySelector(".gift").onclick=()=>goTo(3);
-  document.querySelector(".claim-btn").onclick=()=>goTo(4);
-
-  /* PHOTOS */
-  const photos=[
-    "images/photo1.png",
-    "images/photo2.png",
-    "images/photo3.png",
-    "images/photo4.png"
-  ];
-  let i=0;
-  const photo=document.getElementById("photo");
-
-  const nextPhoto = () => {
-  i++;
-  if (i < photos.length) {
-    photo.src = photos[i];
-  } else {
-    goTo(5);
-  }
+const screens=document.querySelectorAll(".screen");
+const show=n=>{
+  screens.forEach(s=>s.classList.remove("active"));
+  document.querySelector(`[data="${n}"]`).classList.add("active");
 };
 
-photo.addEventListener("click", nextPhoto);
-photo.addEventListener("touchstart", (e) => {
-  e.preventDefault();
-  nextPhoto();
+/* 1 */
+document.getElementById("hold").addEventListener("pointerdown",()=>{
+  setTimeout(()=>show(2),1200);
 });
 
-  /* CARD */
-  document.querySelector(".book").onclick=function(){
-    this.classList.toggle("open");
-  };
+/* 2 */
+document.querySelectorAll(".card").forEach(c=>{
+  c.addEventListener("pointerdown",()=>{
+    c.remove();
+    if(!document.querySelector(".card")){
+      document.getElementById("gift").classList.remove("hidden");
+    }
+  });
+});
+document.getElementById("gift").addEventListener("pointerdown",()=>show(3));
 
+/* 3 */
+document.getElementById("claim").addEventListener("pointerdown",()=>show(4));
+
+/* 4 */
+const photos=[
+ "images/photo1.png",
+ "images/photo2.png",
+ "images/photo3.png",
+ "images/photo4.png"
+];
+let i=0;
+const photo=document.getElementById("photo");
+
+photo.addEventListener("pointerdown",()=>{
+  i++;
+  if(i<photos.length){
+    photo.src=photos[i];
+  }else{
+    show(5);
+  }
+});
+
+/* 5 */
+document.getElementById("book").addEventListener("pointerdown",()=>{
+  document.getElementById("book").classList.toggle("open");
 });
 </script>
 
