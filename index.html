@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>For You ❤️</title>
 
+<!-- New Year / Romantic Font -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+
 <style>
 *{box-sizing:border-box}
 body{
@@ -33,7 +36,12 @@ body{
   pointer-events:auto;
 }
 
-h2{margin-bottom:6px;font-weight:500}
+h2{
+  font-family:'Playfair Display',serif;
+  font-weight:500;
+  margin-bottom:6px;
+}
+
 p{opacity:.7;font-size:14px}
 
 /* SCREEN 1 */
@@ -44,18 +52,12 @@ p{opacity:.7;font-size:14px}
   margin-top:20px;
 }
 
-.progress-ring circle{
-  fill:none;
-  stroke-width:8;
-}
-
+.progress-ring circle{fill:none;stroke-width:8}
 .progress-bg{stroke:rgba(255,255,255,.15)}
-
 .progress{
   stroke:#ff80bf;
   stroke-dasharray:440;
   stroke-dashoffset:440;
-  transition:stroke-dashoffset 2.5s linear;
 }
 
 .heart{
@@ -81,10 +83,7 @@ p{opacity:.7;font-size:14px}
   padding:14px 20px;
   border-radius:14px;
   cursor:pointer;
-  user-select:none;
 }
-
-.card:active{transform:scale(.95)}
 
 .gift{
   font-size:64px;
@@ -112,36 +111,11 @@ p{opacity:.7;font-size:14px}
   border:1px dashed rgba(255,215,120,.35);
 }
 
-.ticket-icon{
-  width:44px;height:44px;
-  border-radius:50%;
-  background:#1c2a3d;
-  display:grid;
-  place-items:center;
-  margin:0 auto 14px;
-  color:#f5c97a;
-}
-
 .ticket-title{
+  font-family:'Playfair Display',serif;
   color:#f5c97a;
   letter-spacing:2px;
 }
-
-.ticket-divider{
-  height:1px;
-  width:80%;
-  margin:12px auto;
-  background:rgba(255,215,120,.3);
-}
-
-.ticket-subtitle{
-  font-size:12px;
-  opacity:.6;
-  letter-spacing:1px;
-}
-
-.ticket-quote{margin-top:12px;font-style:italic}
-.ticket-note{font-size:12px;opacity:.5}
 
 .claim-btn{
   margin-top:20px;
@@ -156,13 +130,10 @@ p{opacity:.7;font-size:14px}
 .photo{
   width:240px;
   height:300px;
-  background:white;
-  color:#333;
+  object-fit:cover;
   border-radius:14px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
   margin-top:20px;
+  cursor:pointer;
 }
 
 /* SCREEN 5 */
@@ -239,12 +210,8 @@ p{opacity:.7;font-size:14px}
 <!-- SCREEN 3 -->
 <section class="screen" data-screen="3">
   <div class="golden-ticket">
-    <div class="ticket-icon">🎟</div>
     <h3 class="ticket-title">GOLDEN TICKET</h3>
-    <div class="ticket-divider"></div>
-    <p class="ticket-subtitle">VALID FOR EVERY DAY AHEAD</p>
-    <p class="ticket-quote">“Unlimited Love & Smiles”</p>
-    <p class="ticket-note">No expiration date</p>
+    <p>Unlimited Love & Smiles</p>
     <button class="claim-btn">CLAIM TICKET →</button>
   </div>
 </section>
@@ -253,8 +220,8 @@ p{opacity:.7;font-size:14px}
 <section class="screen" data-screen="4">
   <h2>Some moments from this year</h2>
   <p>Tap the photo to continue</p>
-<img class="photo" id="photo" src="images/photo1.png" alt="memory" />
 
+  <img class="photo" id="photo" src="images/photo1.png" />
 </section>
 
 <!-- SCREEN 5 -->
@@ -276,82 +243,67 @@ p{opacity:.7;font-size:14px}
 <script>
 document.addEventListener("DOMContentLoaded", () => {
 
-  let current = 1;
-
-  function goTo(n) {
-    const currentScreen = document.querySelector(`[data-screen="${current}"]`);
-    const nextScreen = document.querySelector(`[data-screen="${n}"]`);
-    if (!currentScreen || !nextScreen) return;
-
-    currentScreen.classList.remove("active");
-    nextScreen.classList.add("active");
-    current = n;
+  function goTo(n){
+    document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+    document.querySelector(`[data-screen="${n}"]`).classList.add("active");
   }
 
-  /* -------- HOLD HEART -------- */
-  const progress = document.querySelector(".progress");
-  const hold = document.getElementById("hold");
-  let holdTimer;
+  /* HOLD */
+  const progress=document.querySelector(".progress");
+  const hold=document.getElementById("hold");
+  let t;
 
-  function startHold() {
-    if (!progress) return;
-    progress.style.transition = "stroke-dashoffset 2.5s linear";
-    progress.style.strokeDashoffset = 0;
-    holdTimer = setTimeout(() => goTo(2), 2500);
-  }
+  const start=()=>{
+    progress.style.transition="stroke-dashoffset 2.5s linear";
+    progress.style.strokeDashoffset=0;
+    t=setTimeout(()=>goTo(2),2500);
+  };
+  const end=()=>{
+    clearTimeout(t);
+    progress.style.strokeDashoffset=440;
+  };
 
-  function endHold() {
-    clearTimeout(holdTimer);
-    if (!progress) return;
-    progress.style.transition = "none";
-    progress.style.strokeDashoffset = 440;
-  }
+  hold.addEventListener("mousedown",start);
+  hold.addEventListener("mouseup",end);
+  hold.addEventListener("touchstart",start);
+  hold.addEventListener("touchend",end);
 
-  hold?.addEventListener("mousedown", startHold);
-  hold?.addEventListener("mouseup", endHold);
-  hold?.addEventListener("mouseleave", endHold);
-  hold?.addEventListener("touchstart", startHold);
-  hold?.addEventListener("touchend", endHold);
-
-  /* -------- REMOVE CARDS -------- */
-  document.querySelectorAll(".card").forEach(card => {
-    card.addEventListener("click", () => {
-      card.remove();
-      if (document.querySelectorAll(".card").length === 0) {
-        document.querySelector(".gift")?.classList.remove("hidden");
+  /* CARDS */
+  document.querySelectorAll(".card").forEach(c=>{
+    c.onclick=()=>{
+      c.remove();
+      if(!document.querySelector(".card")){
+        document.querySelector(".gift").classList.remove("hidden");
       }
-    });
+    };
   });
 
-  /* -------- GIFT -------- */
-  document.querySelector(".gift")?.addEventListener("click", () => {
-    goTo(3);
-  });
+  document.querySelector(".gift").onclick=()=>goTo(3);
+  document.querySelector(".claim-btn").onclick=()=>goTo(4);
 
-  /* -------- CLAIM TICKET (FIXED) -------- */
-  document.querySelector(".claim-btn")?.addEventListener("click", () => {
-    goTo(4);
-  });
+  /* PHOTOS */
+  const photos=[
+    "images/photo1.png",
+    "images/photo2.png",
+    "images/photo3.png",
+    "images/photo4.png"
+  ];
+  let i=0;
+  const photo=document.getElementById("photo");
 
-  /* -------- PHOTOS (SAFE) -------- */
-  const photo = document.getElementById("photo");
-  let photoIndex = 1;
+  photo.onclick=()=>{
+    i++;
+    if(i<photos.length){
+      photo.src=photos[i];
+    }else{
+      goTo(5);
+    }
+  };
 
-  if (photo) {
-    photo.addEventListener("click", () => {
-      photoIndex++;
-      if (photoIndex <= 4) {
-        photo.textContent = "Photo " + photoIndex;
-      } else {
-        goTo(5);
-      }
-    });
-  }
-
-  /* -------- CARD OPEN -------- */
-  document.querySelector(".book")?.addEventListener("click", function () {
+  /* CARD */
+  document.querySelector(".book").onclick=function(){
     this.classList.toggle("open");
-  });
+  };
 
 });
 </script>
