@@ -253,7 +253,8 @@ p{opacity:.7;font-size:14px}
 <section class="screen" data-screen="4">
   <h2>Some moments from this year</h2>
   <p>Tap the photo to continue</p>
-  <div class="photo" id="photo">Photo 1</div>
+<img class="photo" id="photo" src="images/photo1.png" alt="memory" />
+
 </section>
 
 <!-- SCREEN 5 -->
@@ -321,17 +322,25 @@ document.querySelector(".gift").onclick=()=>goTo(3);
 document.querySelector(".claim-btn").onclick=()=>goTo(4);
 
 /* PHOTOS */
-let photoIndex = 1;
+const photos = [
+  "images/photo1.jpg",
+  "images/photo2.jpg",
+  "images/photo3.jpg",
+  "images/photo4.jpg"
+];
+
+let photoIndex = 0;
 const photo = document.getElementById("photo");
 
-photo.onclick = () => {
+photo.addEventListener("click", () => {
   photoIndex++;
-  if (photoIndex <= 4) {
-    photo.textContent = "Photo " + photoIndex;
+  if (photoIndex < photos.length) {
+    photo.src = photos[photoIndex];
   } else {
     goTo(5);
   }
-};
+});
+
 
 /* CARD OPEN */
 document.querySelector(".book").onclick=function(){
