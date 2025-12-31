@@ -321,12 +321,14 @@ document.querySelector(".gift").onclick=()=>goTo(3);
 document.querySelector(".claim-btn").onclick=()=>goTo(4);
 
 /* PHOTOS */
-let photoIndex=1;
-photo.onclick=()=>{
+let photoIndex = 1;
+const photo = document.getElementById("photo");
+
+photo.onclick = () => {
   photoIndex++;
-  if(photoIndex<=4){
-    photo.textContent="Photo "+photoIndex;
-  }else{
+  if (photoIndex <= 4) {
+    photo.textContent = "Photo " + photoIndex;
+  } else {
     goTo(5);
   }
 };
